@@ -1,0 +1,13 @@
+Alt-Svc = custom Google header
+Cache-Control = used to tell caching mechanisms from server to client if they are alowed to cache this object
+Content-Encoding = type of encoding used
+Content-Type = what data structure was used
+Data = date and time meassage was sent
+ETag = identifier for message digest or other resource
+Expires = when responce is stale
+Server = name of source server
+Transfer-Encoding = type of encoding used during transfer
+Vary = tells cahing mechanisms to get new responce or not
+X-Content-Type-Options = tells IE to not MIME-sniff this responce
+X-Frame-Options = protects from clickjacking
+X-XSS-Protection = cross-site scripting protection

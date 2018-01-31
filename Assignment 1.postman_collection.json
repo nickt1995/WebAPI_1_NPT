@@ -1,0 +1,129 @@
+{
+	"info": {
+		"name": "Assignment 1",
+		"_postman_id": "b684b747-d730-eb2d-f522-2c79211943da",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get_book_title",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ce03f2a9-90af-486a-8e90-aee9102a9f81",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"var title = jsonData.items[0].volumeInfo.title;",
+							"var id = jsonData.items[0].id;",
+							"postman.setEnvironmentVariable(\"id\", id);",
+							"",
+							"var patt = /turing/i;",
+							"var res = title.search(patt) != -1;",
+							"tests[\"Book title has turing\"] = (res === true);",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "406cad51-68b7-44ef-b4d7-bad6e72cb2b1",
+						"type": "text/javascript",
+						"exec": [
+							"pm.environment.set(\"book_title\", \"Turing\")"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://www.googleapis.com/books/v1/volumes?q={{book_title}}",
+					"protocol": "https",
+					"host": [
+						"www",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"books",
+						"v1",
+						"volumes"
+					],
+					"query": [
+						{
+							"key": "q",
+							"value": "{{book_title}}",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "get_volumes",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "a9e1ea40-7e17-40ee-b8b9-82236c35c91e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "993017f4-12c0-44f2-bee7-64a52209cb41",
+						"type": "text/javascript",
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"var returnedId = jsonData.id;",
+							"",
+							"tests[\"Id is the same\"] = (returnedId == pm.environment.get(\"id\"));",
+							"",
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://www.googleapis.com/books/v1/volumes/{{id}}",
+					"protocol": "https",
+					"host": [
+						"www",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"books",
+						"v1",
+						"volumes",
+						"{{id}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
